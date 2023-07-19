@@ -23,6 +23,9 @@ jobs:
             exit 1
           fi
 
+      - name: Remove AWS backend
+        run: rm ./backend.tf
+
       - name: Run a Terraform init
         uses: docker://hashicorp/terraform:1.5.3
         with:
