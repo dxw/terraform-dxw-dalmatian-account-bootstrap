@@ -1,0 +1,3 @@
+project_name                       = "my-project"
+tfvars_s3_enable_s3_bucket_logging = true
+tfvars_s3_logging_bucket_retention = 30
