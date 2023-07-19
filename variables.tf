@@ -3,6 +3,11 @@ variable "project_name" {
   type        = string
 }
 
+variable "aws_region" {
+  description = "AWS region in which to launch resources"
+  type        = string
+}
+
 variable "tfvars_s3_enable_s3_bucket_logging" {
   description = "Enable S3 bucket logging on the tfvars S3 bucket"
   type        = bool
