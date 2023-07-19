@@ -1,7 +1,6 @@
 # Terraform project for account bootstrapping on dxw's Dalmatian hosting platform
 
 [![Terraform CI](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/actions/workflows/continuous-integration-terraform.yml/badge.svg?branch=main)](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/actions/workflows/continuous-integration-terraform.yml?branch=main)
-[![GitHub release](./releases)](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/releases)
 
 This project creates and manages resources within an AWS account to bootstrap it
 for dxw's Dalmatian hosting platform.
