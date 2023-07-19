@@ -1,21 +1,12 @@
-# <REPLACE WITH USEFUL TERRAFORM DESCRIPTION>
+# Terraform project for account bootstrapping on dxw's Dalmatian hosting platform
 
-[![Terraform CI](./actions/workflows/continuous-integration-terraform.yml/badge.svg?branch=main)](./actions/workflows/continuous-integration-terraform.yml?branch=main)
-[![GitHub release](./releases)](./releases)
+[![Terraform CI](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/actions/workflows/continuous-integration-terraform.yml/badge.svg?branch=main)](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/actions/workflows/continuous-integration-terraform.yml?branch=main)
+[![GitHub release](./releases)](https://github.com/dxw/terraform-dxw-dalmatian-account-bootstrap/releases)
 
-This <module/project> creates and manages <REPLACE WITH MAIN RESOURCE NAMES/URLS>.
+This project creates and manages resources within an AWS account to bootstrap it
+for dxw's Dalmatian hosting platform.
 
 ## Usage
-
-Example module usage:
-
-```hcl
-module "<MODULE NAME>" {
-  source  = "github.com/<ORG>/<MODULE NAME>?ref=v<VERSION>"
-
-  environment = "dev/staging/test/pre-prod/prod/post-prod"
-}
-```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -34,13 +25,9 @@ No resources.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | n/a | yes |
+No inputs.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_environment"></a> [environment](#output\_environment) | n/a |
+No outputs.
 <!-- END_TF_DOCS -->
