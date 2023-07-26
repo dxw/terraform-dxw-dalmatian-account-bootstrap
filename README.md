@@ -13,7 +13,7 @@ for dxw's Dalmatian hosting platform.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.8.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.9.0 |
 
 ## Providers
 
@@ -23,7 +23,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_tfvars_s3"></a> [aws\_tfvars\_s3](#module\_aws\_tfvars\_s3) | github.com/dxw/terraform-aws-tfvars-s3 | main |
+| <a name="module_aws_tfvars_s3"></a> [aws\_tfvars\_s3](#module\_aws\_tfvars\_s3) | github.com/dxw/terraform-aws-tfvars-s3 | v0.1.1 |
 
 ## Resources
 
