@@ -17,3 +17,13 @@ variable "tfvars_s3_logging_bucket_retention" {
   description = "tfvars S3 Logging bucket retention in days. Set to 0 to keep all logs."
   type        = number
 }
+
+variable "tfvars_s3_tfvars_files" {
+  description = "Map of objects containing tfvar file paths"
+  type = map(
+    object({
+      path = string
+      }
+  ))
+  default = {}
+}
