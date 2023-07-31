@@ -1,5 +1,5 @@
 module "aws_tfvars_s3" {
-  source = "github.com/dxw/terraform-aws-tfvars-s3?ref=v0.2.0"
+  source = "github.com/dxw/terraform-aws-tfvars-s3?ref=v0.2.1"
 
   project_name                    = local.project_name_hash
   enable_s3_bucket_logging        = local.tfvars_s3_enable_s3_bucket_logging
