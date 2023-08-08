@@ -34,3 +34,18 @@ variable "tfvars_s3_tfvars_restrict_access_user_ids" {
   default     = []
 
 }
+
+variable "enable_cloudtrail" {
+  description = "Enable Cloudtrail"
+  type        = bool
+}
+
+variable "cloudtrail_log_retention" {
+  description = "Cloudtrail log retention in days. Set to 0 to keep all logs."
+  type        = number
+}
+
+variable "cloudtrail_log_prefix" {
+  description = "Cloudtrail log prefix"
+  type        = string
+}
