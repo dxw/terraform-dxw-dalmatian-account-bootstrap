@@ -13,6 +13,10 @@ locals {
   cloudtrail_log_retention = var.cloudtrail_log_retention
   cloudtrail_log_prefix    = var.cloudtrail_log_prefix
 
+  enable_cloudwatch_slack_alerts   = var.enable_cloudwatch_slack_alerts
+  cloudwatch_slack_alerts_hook_url = var.cloudwatch_slack_alerts_hook_url
+  cloudwatch_slack_alerts_channel  = var.cloudwatch_slack_alerts_channel
+
   default_tags = {
     Project = local.project_name,
   }
