@@ -9,3 +9,6 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 backend.vars
+
+# caches
+lambdas/.zip-cache/*

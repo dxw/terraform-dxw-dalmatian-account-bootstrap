@@ -49,3 +49,18 @@ variable "cloudtrail_log_prefix" {
   description = "Cloudtrail log prefix"
   type        = string
 }
+
+variable "enable_cloudwatch_slack_alerts" {
+  description = "Enable CloudWatch Slack alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then picked up by a Lambda function that forwards them to a Slack webhook."
+  type        = bool
+}
+
+variable "cloudwatch_slack_alerts_hook_url" {
+  description = "The Slack webhook URL for CloudWatch alerts"
+  type        = string
+}
+
+variable "cloudwatch_slack_alerts_channel" {
+  description = "The Slack channel for CloudWatch alerts"
+  type        = string
+}
