@@ -1,5 +1,5 @@
 module "aws_tfvars_s3" {
-  source = "github.com/dxw/terraform-aws-tfvars-s3?ref=v0.2.1"
+  source = "github.com/dxw/terraform-aws-tfvars-s3?ref=v0.2.2"
 
   count = local.enable_s3_tfvars ? 1 : 0
 
