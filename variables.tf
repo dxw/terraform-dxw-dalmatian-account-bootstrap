@@ -8,14 +8,21 @@ variable "aws_region" {
   type        = string
 }
 
+variable "enable_s3_tfvars" {
+  description = "enable_s3_tfvars"
+  type        = bool
+}
+
 variable "tfvars_s3_enable_s3_bucket_logging" {
   description = "Enable S3 bucket logging on the tfvars S3 bucket"
   type        = bool
+  default     = true
 }
 
 variable "tfvars_s3_logging_bucket_retention" {
   description = "tfvars S3 Logging bucket retention in days. Set to 0 to keep all logs."
   type        = number
+  default     = 30
 }
 
 variable "tfvars_s3_tfvars_files" {

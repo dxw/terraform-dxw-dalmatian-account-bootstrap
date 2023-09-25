@@ -4,6 +4,7 @@ locals {
   aws_region        = var.aws_region
   aws_account_id    = data.aws_caller_identity.current.account_id
 
+  enable_s3_tfvars                          = var.enable_s3_tfvars
   tfvars_s3_enable_s3_bucket_logging        = var.tfvars_s3_enable_s3_bucket_logging
   tfvars_s3_logging_bucket_retention        = var.tfvars_s3_logging_bucket_retention
   tfvars_s3_tfvars_files                    = var.tfvars_s3_tfvars_files
