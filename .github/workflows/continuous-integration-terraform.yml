@@ -5,6 +5,9 @@ on:
     branches: main
   pull_request:
 
+env:
+  GITHUB_PR_BRANCH: ""
+
 jobs:
   terraform-validate:
     name: Terraform Validate
@@ -63,13 +66,19 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Get branch name
-        id: branch-name
-        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Get PR base branch
+        id: pr-base-branch-name
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "GITHUB_PR_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
+
+      - name: Output PR base branch
+        run: |
+          echo "$GITHUB_PR_BRANCH"
 
       - name: Generate Terraform docs
         uses: terraform-docs/gh-actions@v1.0.0
-        if: "!startsWith(steps.branch-name.outputs.branch, 'renovate/')"
+        if: "!startsWith(env.GITHUB_PR_BRANCH, 'renovate/')"
         with:
           working-dir: .
           config-file: .terraform-docs.yml
@@ -79,7 +88,7 @@ jobs:
 
       - name: Generate Terraform docs for Renovate
         uses: terraform-docs/gh-actions@v1.0.0
-        if: "startsWith(steps.branch-name.outputs.branch, 'renovate/')"
+        if: "startsWith(env.GITHUB_PR_BRANCH, 'renovate/')"
         with:
           working-dir: .
           config-file: .terraform-docs.yml
