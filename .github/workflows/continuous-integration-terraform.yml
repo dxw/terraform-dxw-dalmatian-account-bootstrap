@@ -63,9 +63,13 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
+      - name: Get branch name
+        id: branch-name
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+
       - name: Generate Terraform docs
         uses: terraform-docs/gh-actions@v1.0.0
-        if: "!startsWith(github.ref, 'refs/heads/renovate/')"
+        if: "!startsWith(steps.branch-name.outputs.branch, 'renovate/')"
         with:
           working-dir: .
           config-file: .terraform-docs.yml
@@ -75,7 +79,7 @@ jobs:
 
       - name: Generate Terraform docs for Renovate
         uses: terraform-docs/gh-actions@v1.0.0
-        if: "startsWith(github.ref, 'refs/heads/renovate/')"
+        if: "startsWith(steps.branch-name.outputs.branch, 'renovate/')"
         with:
           working-dir: .
           config-file: .terraform-docs.yml
