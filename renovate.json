@@ -2,5 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
-  ]
+  ],
+  "postUpdateOptions": {
+    "enabled": true,
+    "commands": [
+      "docker run --rm --volume $(pwd):/terraform-docs -w /terraform-docs -u $(id -u) quay.io/terraform-docs/terraform-docs:0.16.0 .",
+      "git add .",
+      "git commit -m '${renovateCommitMessage} - Terraform Docs'"
+    ]
+  }
 }
