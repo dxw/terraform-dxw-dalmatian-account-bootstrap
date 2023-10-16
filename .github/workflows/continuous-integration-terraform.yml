@@ -65,9 +65,20 @@ jobs:
 
       - name: Generate Terraform docs
         uses: terraform-docs/gh-actions@v1.0.0
+        if: "!startsWith(github.ref, 'refs/heads/renovate/')"
         with:
           working-dir: .
           config-file: .terraform-docs.yml
           output-file: README.md
           output-method: inject
           fail-on-diff: true
+
+      - name: Generate Terraform docs for Renovate
+        uses: terraform-docs/gh-actions@v1.0.0
+        if: "startsWith(github.ref, 'refs/heads/renovate/')"
+        with:
+          working-dir: .
+          config-file: .terraform-docs.yml
+          output-file: README.md
+          output-method: inject
+          git-push: true
