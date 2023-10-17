@@ -65,6 +65,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.TERRAFORM_DOCS_RENOVATE_WORKFLOW_GITHUB_TOKEN }}
 
       - name: Get PR base branch
         id: pr-base-branch-name
