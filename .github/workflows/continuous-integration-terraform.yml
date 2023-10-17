@@ -95,3 +95,4 @@ jobs:
           output-file: README.md
           output-method: inject
           git-push: true
+          ref: ${{ github.event.pull_request.head.ref }}
