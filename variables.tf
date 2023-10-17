@@ -72,3 +72,18 @@ variable "cloudwatch_slack_alerts_channel" {
   description = "The Slack channel for CloudWatch alerts"
   type        = string
 }
+
+variable "enable_cloudwatch_opsgenie_alerts" {
+  description = "Enable CloudWatch Opsgenie alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then sent to the Opsgenie SNS endpoint."
+  type        = bool
+}
+
+variable "cloudwatch_opsgenie_alerts_sns_endpoint" {
+  description = "The Opsgenie SNS endpoint. https://support.atlassian.com/opsgenie/docs/integrate-opsgenie-with-incoming-amazon-sns/"
+  type        = string
+}
+
+variable "cloudwatch_opsgenie_alerts_sns_kms_encryption" {
+  description = "Use KMS encryption with the Opsgenie Alerts SNS topic"
+  type        = bool
+}
