@@ -27,7 +27,7 @@ for dxw's Dalmatian hosting platform.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_tfvars_s3"></a> [aws\_tfvars\_s3](#module\_aws\_tfvars\_s3) | github.com/dxw/terraform-aws-tfvars-s3 | v0.2.3 |
+| <a name="module_aws_tfvars_s3"></a> [aws\_tfvars\_s3](#module\_aws\_tfvars\_s3) | github.com/dxw/terraform-aws-tfvars-s3 | v0.2.4 |
 
 ## Resources
 
