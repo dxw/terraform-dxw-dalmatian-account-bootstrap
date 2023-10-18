@@ -97,4 +97,4 @@ jobs:
           output-method: inject
           git-push: true
           ref: ${{ github.event.pull_request.head.ref }}
-          git-commit-message: "$GIT_COMMIT_MESSAGE - Terraform Docs"
+          git-commit-message: "${{ env.GIT_COMMIT_MESSAGE }} - Terraform Docs"
