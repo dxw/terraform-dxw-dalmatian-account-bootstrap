@@ -18,6 +18,10 @@ locals {
   cloudwatch_slack_alerts_hook_url = var.cloudwatch_slack_alerts_hook_url
   cloudwatch_slack_alerts_channel  = var.cloudwatch_slack_alerts_channel
 
+  enable_cloudwatch_opsgenie_alerts             = var.enable_cloudwatch_opsgenie_alerts
+  cloudwatch_opsgenie_alerts_sns_kms_encryption = var.cloudwatch_opsgenie_alerts_sns_kms_encryption && local.enable_cloudwatch_opsgenie_alerts
+  cloudwatch_opsgenie_alerts_sns_endpoint       = var.cloudwatch_opsgenie_alerts_sns_endpoint
+
   default_tags = {
     Project = local.project_name,
   }
