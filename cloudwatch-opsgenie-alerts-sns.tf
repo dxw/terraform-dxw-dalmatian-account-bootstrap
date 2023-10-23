@@ -10,6 +10,7 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns" {
     {
       services      = jsonencode(["cloudwatch.amazonaws.com"]),
       sns_topic_arn = "arn:aws:sns:${local.aws_region}:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      additional_principle_allow = jsonencode(local.cloudwatch_opsgenie_alerts_sns_kms_key_additional_principles_allow)
     }
   )
 }
@@ -42,6 +43,7 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns_us_east_1" {
     {
       services      = jsonencode(["cloudwatch.amazonaws.com"]),
       sns_topic_arn = "arn:aws:sns:us-east-1:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      additional_principle_allow = jsonencode(local.cloudwatch_opsgenie_alerts_sns_kms_key_additional_principles_allow)
     }
   )
 }

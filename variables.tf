@@ -87,3 +87,8 @@ variable "cloudwatch_opsgenie_alerts_sns_kms_encryption" {
   description = "Use KMS encryption with the Opsgenie Alerts SNS topic"
   type        = bool
 }
+
+variable "cloudwatch_opsgenie_alerts_sns_kms_key_additional_principles_allow" {
+  description = "Add additional principles to allow full access to the key that is created for the Opsgenie Alerts SNS topic key"
+  type        = list(string)
+}

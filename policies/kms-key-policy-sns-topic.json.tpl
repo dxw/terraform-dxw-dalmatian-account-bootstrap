@@ -25,6 +25,15 @@
       },
       "Action": "kms:*",
       "Resource": "*"
+    }%{ if additional_principle_allow != "[]" },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ${additional_principle_allow}
+      },
+      "Action": "kms:*",
+      "Resource": "*"
     }
+    %{~ endif }
   ]
 }
