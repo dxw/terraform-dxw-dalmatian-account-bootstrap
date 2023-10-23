@@ -8,8 +8,9 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns" {
   policy = templatefile(
     "${path.module}/policies/kms-key-policy-sns-topic.json.tpl",
     {
-      services      = jsonencode(["cloudwatch.amazonaws.com"]),
-      sns_topic_arn = "arn:aws:sns:${local.aws_region}:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      services       = jsonencode(["cloudwatch.amazonaws.com"]),
+      sns_topic_arn  = "arn:aws:sns:${local.aws_region}:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      aws_account_id = local.aws_account_id
     }
   )
 }
@@ -40,8 +41,9 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns_us_east_1" {
   policy = templatefile(
     "${path.module}/policies/kms-key-policy-sns-topic.json.tpl",
     {
-      services      = jsonencode(["cloudwatch.amazonaws.com"]),
-      sns_topic_arn = "arn:aws:sns:us-east-1:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      services       = jsonencode(["cloudwatch.amazonaws.com"]),
+      sns_topic_arn  = "arn:aws:sns:us-east-1:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      aws_account_id = local.aws_account_id
     }
   )
 }
