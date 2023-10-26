@@ -56,6 +56,15 @@ resource "aws_s3_bucket_versioning" "cloudtrail" {
   }
 }
 
+resource "aws_s3_bucket_logging" "cloudtrail" {
+  count = local.cloudtrail_s3_access_logs ? 1 : 0
+
+  bucket = aws_s3_bucket.cloudtrail[0].id
+
+  target_bucket = aws_s3_bucket.logs[0].id
+  target_prefix = "s3/cloudtrail"
+}
+
 # Using SSE-KMS is not supported for logging buckets
 # tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {

@@ -48,6 +48,11 @@ variable "enable_cloudtrail" {
   type        = bool
 }
 
+variable "cloudtrail_kms_encryption" {
+  description = "Use KMS encryption with CloudTrail"
+  type        = bool
+}
+
 variable "cloudtrail_log_retention" {
   description = "Cloudtrail log retention in days. Set to 0 to keep all logs."
   type        = number
@@ -56,6 +61,11 @@ variable "cloudtrail_log_retention" {
 variable "cloudtrail_log_prefix" {
   description = "Cloudtrail log prefix"
   type        = string
+}
+
+variable "cloudtrail_s3_access_logs" {
+  description = "Enable CloudTrail S3 bucket access logging"
+  type        = bool
 }
 
 variable "enable_cloudwatch_slack_alerts" {
@@ -73,6 +83,16 @@ variable "cloudwatch_slack_alerts_channel" {
   type        = string
 }
 
+variable "cloudwatch_slack_alerts_kms_encryption" {
+  description = "Use KMS encryption with the Slack Alerts SNS topic and logs"
+  type        = bool
+}
+
+variable "cloudwatch_slack_alerts_log_retention" {
+  description = "Cloudwatch Slack Alerts log retention. Set to 0 to keep all logs"
+  type        = number
+}
+
 variable "enable_cloudwatch_opsgenie_alerts" {
   description = "Enable CloudWatch Opsgenie alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then sent to the Opsgenie SNS endpoint."
   type        = bool
@@ -86,4 +106,9 @@ variable "cloudwatch_opsgenie_alerts_sns_endpoint" {
 variable "cloudwatch_opsgenie_alerts_sns_kms_encryption" {
   description = "Use KMS encryption with the Opsgenie Alerts SNS topic"
   type        = bool
+}
+
+variable "logging_bucket_retention" {
+  description = "Logging bucket retention in days. Set to 0 to keep all logs."
+  type        = number
 }
