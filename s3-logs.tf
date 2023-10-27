@@ -3,7 +3,7 @@
 resource "aws_s3_bucket" "logs" {
   count = local.enable_logs_bucket ? 1 : 0
 
-  bucket = "${local.project_name}-logs"
+  bucket = "${local.aws_account_id}-${local.aws_region}-${local.project_name}-logs"
 }
 
 resource "aws_s3_bucket_policy" "logs" {
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_policy" "logs" {
       ${templatefile("${path.root}/policies/s3-bucket-policy-statements/enforce-tls.json.tpl", { bucket_arn = aws_s3_bucket.logs[0].arn })},
       ${templatefile("${path.root}/policies/s3-bucket-policy-statements/log-delivery-access.json.tpl", {
       log_bucket_arn     = aws_s3_bucket.logs[0].arn
-      source_bucket_arns = local.logs_bucket_source_arns
+      source_bucket_arns = jsonencode(local.logs_bucket_source_arns)
       account_id         = local.aws_account_id
 })}
       ]

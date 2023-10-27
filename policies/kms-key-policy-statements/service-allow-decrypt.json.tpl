@@ -1,7 +1,7 @@
 {
   "Effect": "Allow",
   "Principal": {
-    Service": ${services}
+    "Service": ${services}
   },
   "Action": "kms:Decrypt",
   "Resource": "*"

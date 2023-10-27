@@ -28,7 +28,7 @@ resource "aws_kms_key" "cloudtrail_cloudwatch_logs" {
       ${templatefile("${path.root}/policies/kms-key-policy-statements/service-describe-key.json.tpl",
       {
         services   = jsonencode(["cloudtrail.amazonaws.com"])
-        key_arn    = "arn:aws:kms:${local.aws_region}:${local.aws_account_id}:key/*"
+        key_arn    = "*"
         source_arn = "arn:aws:cloudtrail:${local.aws_region}:${local.aws_account_id}:trail/${local.project_name}"
       }
       )},
@@ -55,7 +55,7 @@ resource "aws_cloudwatch_log_group" "cloudtrail" {
 
   name              = "${local.project_name}-cloudtrail"
   retention_in_days = local.cloudtrail_log_retention
-  kms_key_id        = local.cloudtrail_kms_encryption ? aws_kms_alias.cloudtrail_cloudwatch_logs[0].name : null
+  kms_key_id        = local.cloudtrail_kms_encryption ? aws_kms_key.cloudtrail_cloudwatch_logs[0].arn : null
   skip_destroy      = true
 }
 
@@ -99,7 +99,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_cloudwatch_logs[0].arn
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail[0].arn}:*"
   enable_log_file_validation    = true
-  kms_key_id                    = local.cloudtrail_kms_encryption ? aws_kms_alias.cloudtrail_cloudwatch_logs[0].name : null
+  kms_key_id                    = local.cloudtrail_kms_encryption ? aws_kms_key.cloudtrail_cloudwatch_logs[0].arn : null
 
   depends_on = [
     aws_s3_bucket_policy.cloudtrail
