@@ -68,6 +68,11 @@ variable "cloudtrail_s3_access_logs" {
   type        = bool
 }
 
+variable "cloudtrail_athena_glue_tables" {
+  description = "Create the Glue database and tables for CloudTrail to be used with Athena"
+  type        = bool
+}
+
 variable "enable_cloudwatch_slack_alerts" {
   description = "Enable CloudWatch Slack alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then picked up by a Lambda function that forwards them to a Slack webhook."
   type        = bool
