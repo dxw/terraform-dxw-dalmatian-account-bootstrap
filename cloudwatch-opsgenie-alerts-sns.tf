@@ -6,13 +6,24 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns" {
   enable_key_rotation     = true
 
   policy = templatefile(
-    "${path.module}/policies/kms-key-policy-sns-topic.json.tpl",
+    "${path.root}/policies/kms-key-policy.json.tpl",
     {
-      services       = jsonencode(["cloudwatch.amazonaws.com"]),
-      sns_topic_arn  = "arn:aws:sns:${local.aws_region}:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
-      aws_account_id = local.aws_account_id
-    }
-  )
+      statement = <<EOT
+      [
+      ${templatefile("${path.root}/policies/kms-key-policy-statements/root-allow-all.json.tpl",
+      {
+        aws_account_id = local.aws_account_id
+      }
+      )},
+      ${templatefile("${path.root}/policies/kms-key-policy-statements/cloudwatch-sns-allow-encrypt.json.tpl",
+      {
+        sns_topic_arn = "arn:aws:sns:${local.aws_region}:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      }
+  )}
+      ]
+      EOT
+}
+)
 }
 
 resource "aws_kms_alias" "cloudwatch_opsgenie_alerts_sns" {
@@ -39,13 +50,24 @@ resource "aws_kms_key" "cloudwatch_opsgenie_alerts_sns_us_east_1" {
   enable_key_rotation     = true
 
   policy = templatefile(
-    "${path.module}/policies/kms-key-policy-sns-topic.json.tpl",
+    "${path.root}/policies/kms-key-policy.json.tpl",
     {
-      services       = jsonencode(["cloudwatch.amazonaws.com"]),
-      sns_topic_arn  = "arn:aws:sns:us-east-1:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
-      aws_account_id = local.aws_account_id
-    }
-  )
+      statement = <<EOT
+      [
+      ${templatefile("${path.root}/policies/kms-key-policy-statements/root-allow-all.json.tpl",
+      {
+        aws_account_id = local.aws_account_id
+      }
+      )},
+      ${templatefile("${path.root}/policies/kms-key-policy-statements/cloudwatch-sns-allow-encrypt.json.tpl",
+      {
+        sns_topic_arn = "arn:aws:sns:us-east-1:${local.aws_account_id}:${local.project_name}-cloudwatch-opsgenie-alerts"
+      }
+  )}
+      ]
+      EOT
+}
+)
 }
 
 resource "aws_kms_alias" "cloudwatch_opsgenie_alerts_sns_us_east_1" {
