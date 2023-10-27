@@ -1,7 +1,7 @@
 {
   "Effect": "Allow",
   "Principal": {
-    "Service": "logs.region.amazonaws.com"
+    "Service": "logs.amazonaws.com"
   },
   "Action": [
     "kms:Encrypt*",
