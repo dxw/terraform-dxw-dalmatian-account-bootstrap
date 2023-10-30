@@ -55,6 +55,8 @@ locals {
   cloudwatch_opsgenie_alerts_sns_kms_encryption = var.cloudwatch_opsgenie_alerts_sns_kms_encryption && local.enable_cloudwatch_opsgenie_alerts
   cloudwatch_opsgenie_alerts_sns_endpoint       = var.cloudwatch_opsgenie_alerts_sns_endpoint
 
+  codestar_connections = var.codestar_connections
+
   enable_logs_bucket       = local.cloudtrail_s3_access_logs || local.cloudtrail_athena_glue_tables
   logging_bucket_retention = var.logging_bucket_retention
   logs_bucket_source_arns = concat(
