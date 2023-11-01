@@ -123,6 +123,15 @@ variable "cloudwatch_opsgenie_alerts_sns_kms_encryption" {
   type        = bool
 }
 
+variable "codestar_connections" {
+  description = "CodeStar connections to create"
+  type = map(
+    object({
+      provider_type = string,
+    })
+  )
+}
+
 variable "logging_bucket_retention" {
   description = "Logging bucket retention in days. Set to 0 to keep all logs."
   type        = number

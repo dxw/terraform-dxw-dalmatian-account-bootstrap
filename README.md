@@ -39,6 +39,7 @@ for dxw's Dalmatian hosting platform.
 | [aws_cloudtrail.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudtrail) | resource |
 | [aws_cloudwatch_log_group.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.cloudwatch_slack_alerts_lambda_log_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_codestarconnections_connection.connections](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codestarconnections_connection) | resource |
 | [aws_glue_catalog_database.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_database) | resource |
 | [aws_glue_catalog_table.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_table) | resource |
 | [aws_iam_policy.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -109,6 +110,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="input_cloudwatch_slack_alerts_hook_url"></a> [cloudwatch\_slack\_alerts\_hook\_url](#input\_cloudwatch\_slack\_alerts\_hook\_url) | The Slack webhook URL for CloudWatch alerts | `string` | n/a | yes |
 | <a name="input_cloudwatch_slack_alerts_kms_encryption"></a> [cloudwatch\_slack\_alerts\_kms\_encryption](#input\_cloudwatch\_slack\_alerts\_kms\_encryption) | Use KMS encryption with the Slack Alerts SNS topic and logs | `bool` | n/a | yes |
 | <a name="input_cloudwatch_slack_alerts_log_retention"></a> [cloudwatch\_slack\_alerts\_log\_retention](#input\_cloudwatch\_slack\_alerts\_log\_retention) | Cloudwatch Slack Alerts log retention. Set to 0 to keep all logs | `number` | n/a | yes |
+| <a name="input_codestar_connections"></a> [codestar\_connections](#input\_codestar\_connections) | CodeStar connections to create | <pre>map(<br>    object({<br>      provider_type = string,<br>    })<br>  )</pre> | n/a | yes |
 | <a name="input_enable_cloudtrail"></a> [enable\_cloudtrail](#input\_enable\_cloudtrail) | Enable Cloudtrail | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_opsgenie_alerts"></a> [enable\_cloudwatch\_opsgenie\_alerts](#input\_enable\_cloudwatch\_opsgenie\_alerts) | Enable CloudWatch Opsgenie alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then sent to the Opsgenie SNS endpoint. | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_slack_alerts"></a> [enable\_cloudwatch\_slack\_alerts](#input\_enable\_cloudwatch\_slack\_alerts) | Enable CloudWatch Slack alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then picked up by a Lambda function that forwards them to a Slack webhook. | `bool` | n/a | yes |
