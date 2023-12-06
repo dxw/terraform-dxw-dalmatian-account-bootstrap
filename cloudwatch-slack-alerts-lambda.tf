@@ -16,7 +16,7 @@ resource "aws_iam_role" "cloudwatch_slack_alerts_lambda" {
   )
 }
 
-resource "aws_iam_policy" "cloudtrail_cloudwatch_logs_lambda" {
+resource "aws_iam_policy" "cloudwatch_slack_alerts_logs_lambda" {
   count = local.enable_cloudwatch_slack_alerts ? 1 : 0
 
   name = "${local.project_name}-cloudwatch-slack-alerts-lambda"
@@ -30,11 +30,11 @@ resource "aws_iam_policy" "cloudtrail_cloudwatch_logs_lambda" {
   )
 }
 
-resource "aws_iam_role_policy_attachment" "cloudtrail_cloudwatch_logs_lambda" {
+resource "aws_iam_role_policy_attachment" "cloudwatch_slack_alerts_logs_lambda" {
   count = local.enable_cloudwatch_slack_alerts ? 1 : 0
 
   role       = aws_iam_role.cloudwatch_slack_alerts_lambda[0].name
-  policy_arn = aws_iam_policy.cloudtrail_cloudwatch_logs_lambda[0].arn
+  policy_arn = aws_iam_policy.cloudwatch_slack_alerts_logs_lambda[0].arn
 }
 
 data "archive_file" "cloudwatch_slack_alerts_lambda" {
