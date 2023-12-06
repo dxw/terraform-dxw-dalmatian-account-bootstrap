@@ -10,6 +10,9 @@ locals {
   tfvars_s3_tfvars_files                    = var.tfvars_s3_tfvars_files
   tfvars_s3_tfvars_restrict_access_user_ids = var.tfvars_s3_tfvars_restrict_access_user_ids
 
+  route53_root_hosted_zone_domain_name = var.route53_root_hosted_zone_domain_name
+  enable_route53_root_hosted_zone      = var.enable_route53_root_hosted_zone && local.route53_root_hosted_zone_domain_name != ""
+
   enable_cloudtrail                          = var.enable_cloudtrail
   cloudtrail_kms_encryption                  = var.cloudtrail_kms_encryption
   cloudtrail_log_retention                   = var.cloudtrail_log_retention

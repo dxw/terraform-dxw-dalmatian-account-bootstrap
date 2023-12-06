@@ -43,6 +43,16 @@ variable "tfvars_s3_tfvars_restrict_access_user_ids" {
 
 }
 
+variable "enable_route53_root_hosted_zone" {
+  description = "Conditionally create Route53 hosted zone, which will contain the DNS records for resources launched within the account."
+  type        = bool
+}
+
+variable "route53_root_hosted_zone_domain_name" {
+  description = "Route53 root hosted zone domain name"
+  type        = string
+}
+
 variable "enable_cloudtrail" {
   description = "Enable Cloudtrail"
   type        = bool
