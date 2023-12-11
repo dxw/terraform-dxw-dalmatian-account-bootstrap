@@ -10,6 +10,10 @@ locals {
   tfvars_s3_tfvars_files                    = var.tfvars_s3_tfvars_files
   tfvars_s3_tfvars_restrict_access_user_ids = var.tfvars_s3_tfvars_restrict_access_user_ids
 
+  enable_delete_default_resources                = var.enable_delete_default_resources
+  delete_default_resources_lambda_kms_encryption = var.delete_default_resources_lambda_kms_encryption && local.enable_delete_default_resources
+  delete_default_resources_log_retention         = var.delete_default_resources_log_retention
+
   route53_root_hosted_zone_domain_name = var.route53_root_hosted_zone_domain_name
   enable_route53_root_hosted_zone      = var.enable_route53_root_hosted_zone && local.route53_root_hosted_zone_domain_name != ""
 

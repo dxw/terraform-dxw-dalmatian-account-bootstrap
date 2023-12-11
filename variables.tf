@@ -43,6 +43,21 @@ variable "tfvars_s3_tfvars_restrict_access_user_ids" {
 
 }
 
+variable "enable_delete_default_resources" {
+  description = "Creates a Lambda function which deletes all default VPCs and resources within them. This only needs to be ran once, either through the AWS console or via the AWS CLI"
+  type        = bool
+}
+
+variable "delete_default_resources_lambda_kms_encryption" {
+  description = "Conditionally encrypt the Delete Default Resources Lambda logs with KMS"
+  type        = bool
+}
+
+variable "delete_default_resources_log_retention" {
+  description = "Log retention for the Delete Default Resources Lambda"
+  type        = number
+}
+
 variable "enable_route53_root_hosted_zone" {
   description = "Conditionally create Route53 hosted zone, which will contain the DNS records for resources launched within the account."
   type        = bool

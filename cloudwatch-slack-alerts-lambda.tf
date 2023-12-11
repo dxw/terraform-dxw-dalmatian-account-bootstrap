@@ -2,7 +2,7 @@ resource "aws_cloudwatch_log_group" "cloudwatch_slack_alerts_lambda_log_group" {
   count = local.enable_cloudwatch_slack_alerts ? 1 : 0
 
   name              = "/aws/lambda/${local.project_name}-cloudwatch-to-slack"
-  kms_key_id        = local.cloudwatch_slack_alerts_kms_encryption ? aws_kms_alias.cloudwatch_slack_alerts[0].name : null
+  kms_key_id        = local.cloudwatch_slack_alerts_kms_encryption ? aws_kms_key.cloudwatch_slack_alerts[0].arn : null
   retention_in_days = local.cloudwatch_slack_alerts_log_retention
 }
 
