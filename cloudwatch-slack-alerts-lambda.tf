@@ -9,7 +9,8 @@ resource "aws_cloudwatch_log_group" "cloudwatch_slack_alerts_lambda_log_group" {
 resource "aws_iam_role" "cloudwatch_slack_alerts_lambda" {
   count = local.enable_cloudwatch_slack_alerts ? 1 : 0
 
-  name = "${local.project_name}-cloudwatch-slack-alerts-lambda"
+  name        = "${local.project_name}-${substr(sha512("cloudwatch-slack-alerts-lambda"), 0, 6)}"
+  description = "${local.project_name}-cloudwatch-slack-alerts-lambda"
   assume_role_policy = templatefile(
     "${path.root}/policies/service-assume.json.tpl",
     { service = "lambda.amazonaws.com" }

@@ -62,7 +62,8 @@ resource "aws_cloudwatch_log_group" "cloudtrail" {
 resource "aws_iam_role" "cloudtrail_cloudwatch_logs" {
   count = local.enable_cloudtrail ? 1 : 0
 
-  name = "${local.project_name}-cloudtrail-cloudwatch-logs"
+  name        = "${local.project_name}-${substr(sha512("cloudtrail-cloudwatch-logs"), 0, 6)}"
+  description = "${local.project_name}-cloudtrail-cloudwatch-logs"
   assume_role_policy = templatefile(
     "${path.root}/policies/service-assume.json.tpl",
     { service = "cloudtrail.amazonaws.com" }
