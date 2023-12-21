@@ -21,8 +21,8 @@ for dxw's Dalmatian hosting platform.
 | Name | Version |
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.4.0 |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.30.0 |
-| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.30.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.31.0 |
+| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.31.0 |
 
 ## Modules
 
