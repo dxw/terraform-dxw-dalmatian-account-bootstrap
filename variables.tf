@@ -157,6 +157,11 @@ variable "codestar_connections" {
   )
 }
 
+variable "enable_ssm_dhmc" {
+  description = "Enables SSM Default Host Management Configuration"
+  type        = bool
+}
+
 variable "logging_bucket_retention" {
   description = "Logging bucket retention in days. Set to 0 to keep all logs."
   type        = number
