@@ -23,6 +23,11 @@ resource "aws_kms_key" "cloudwatch_slack_alerts" {
       {
         log_group_arn = "arn:aws:logs:${local.aws_region}:${local.aws_account_id}:log-group:/aws/lambda/${local.project_name}-cloudwatch-to-slack"
       }
+      )},
+      ${templatefile("${path.root}/policies/kms-key-policy-statements/service-allow-encrypt.json.tpl",
+      {
+        services = jsonencode(["events.amazonaws.com"])
+      }
   )}
       ]
       EOT
