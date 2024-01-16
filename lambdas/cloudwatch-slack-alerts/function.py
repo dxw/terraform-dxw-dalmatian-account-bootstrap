@@ -17,8 +17,11 @@ def lambda_handler(event, context):
     try:
       message = json.loads(event['Records'][0]['Sns']['Message'])
     except ValueError as e:
-      message = '{"message": "%s"}' (event['Records'][0]['Sns']['Message'].replace('"', '\\"'))
-    return True
+      message = { "message": event['Records'][0]['Sns']['Message'] }
+
+    if isinstance(message, str):
+      message = { "message": event['Records'][0]['Sns']['Message'] }
+
     logger.info("Message: " + str(message))
 
     if "AlarmName" in message.keys():
