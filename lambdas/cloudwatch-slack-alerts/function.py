@@ -14,7 +14,11 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     logger.info("Event: " + str(event))
-    message = json.loads(event['Records'][0]['Sns']['Message'])
+    try:
+      message = json.loads(event['Records'][0]['Sns']['Message'])
+    except ValueError as e:
+      message = '{"message": "%s"}' (event['Records'][0]['Sns']['Message'].replace('"', '\\"'))
+    return True
     logger.info("Message: " + str(message))
 
     if "AlarmName" in message.keys():
@@ -52,6 +56,17 @@ def lambda_handler(event, context):
             }
           ]
         }
+    elif "message" in message.keys():
+      message_color = "good"
+      slack_message = {
+        'channel': SLACK_CHANNEL,
+        'attachments': [
+          {
+            'text': message['message'],
+            'color': "good"
+          }
+        ]
+      }
 
     logger.info("Event: " + str(json.dumps(slack_message)))
     req = Request(HOOK_URL, json.dumps(slack_message).encode('utf-8'))
