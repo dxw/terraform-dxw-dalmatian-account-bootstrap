@@ -85,6 +85,8 @@ resource "aws_iam_policy" "cloudtrail_cloudwatch_logs" {
 }
 
 resource "aws_iam_role_policy_attachment" "cloudtrail_cloudwatch_logs" {
+  count = local.enable_cloudtrail ? 1 : 0
+
   role       = aws_iam_role.cloudtrail_cloudwatch_logs[0].name
   policy_arn = aws_iam_policy.cloudtrail_cloudwatch_logs[0].arn
 }
