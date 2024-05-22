@@ -14,7 +14,7 @@ output "resource_map" {
     codestar_connections = {
       _description = "CodeStar connection ARNs"
       arns = {
-        for connection in local.codestar_connections : connection.value => aws_codestarconnections_connection.connections[connection.value].arn
+        for k, connection in local.codestar_connections : k => aws_codestarconnections_connection.connections[k].arn
       }
     }
     alerts = {
