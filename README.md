@@ -45,15 +45,18 @@ for dxw's Dalmatian hosting platform.
 | [aws_glue_catalog_table.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_table) | resource |
 | [aws_iam_policy.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cloudwatch_slack_alerts_logs_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.delete_default_resources_vpc_delete_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cloudwatch_slack_alerts_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cloudwatch_slack_alerts_logs_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.delete_default_resources_vpc_delete_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -126,6 +129,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="input_cloudwatch_slack_alerts_kms_encryption"></a> [cloudwatch\_slack\_alerts\_kms\_encryption](#input\_cloudwatch\_slack\_alerts\_kms\_encryption) | Use KMS encryption with the Slack Alerts SNS topic and logs | `bool` | n/a | yes |
 | <a name="input_cloudwatch_slack_alerts_log_retention"></a> [cloudwatch\_slack\_alerts\_log\_retention](#input\_cloudwatch\_slack\_alerts\_log\_retention) | Cloudwatch Slack Alerts log retention. Set to 0 to keep all logs | `number` | n/a | yes |
 | <a name="input_codestar_connections"></a> [codestar\_connections](#input\_codestar\_connections) | CodeStar connections to create | <pre>map(<br/>    object({<br/>      provider_type = string,<br/>    })<br/>  )</pre> | n/a | yes |
+| <a name="input_custom_iam_roles"></a> [custom\_iam\_roles](#input\_custom\_iam\_roles) | Configure custom IAM roles/policies | <pre>map(object({<br/>    description = string<br/>    policies = map(object({<br/>      description = string<br/>      Version     = string<br/>      Statement = list(object({<br/>        Action   = list(string)<br/>        Effect   = string<br/>        Resource = string<br/>      }))<br/>    }))<br/>    assume_role_policy = object({<br/>      Version = string<br/>      Statement = list(object({<br/>        Action    = list(string)<br/>        Effect    = string<br/>        Principal = map(string)<br/>      }))<br/>    })<br/>  }))</pre> | n/a | yes |
 | <a name="input_delete_default_resources_lambda_kms_encryption"></a> [delete\_default\_resources\_lambda\_kms\_encryption](#input\_delete\_default\_resources\_lambda\_kms\_encryption) | Conditionally encrypt the Delete Default Resources Lambda logs with KMS | `bool` | n/a | yes |
 | <a name="input_delete_default_resources_log_retention"></a> [delete\_default\_resources\_log\_retention](#input\_delete\_default\_resources\_log\_retention) | Log retention for the Delete Default Resources Lambda | `number` | n/a | yes |
 | <a name="input_enable_cloudtrail"></a> [enable\_cloudtrail](#input\_enable\_cloudtrail) | Enable Cloudtrail | `bool` | n/a | yes |
