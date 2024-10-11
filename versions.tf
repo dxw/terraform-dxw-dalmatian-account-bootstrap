@@ -9,5 +9,9 @@ terraform {
       source  = "hashicorp/archive"
       version = ">= 2.4.0"
     }
+    datadog = {
+      source  = "DataDog/datadog"
+      version = ">= 3.46.0"
+    }
   }
 }

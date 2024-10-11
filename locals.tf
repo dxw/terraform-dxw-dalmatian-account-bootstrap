@@ -62,6 +62,20 @@ locals {
   cloudwatch_opsgenie_alerts_sns_kms_encryption = var.cloudwatch_opsgenie_alerts_sns_kms_encryption && local.enable_cloudwatch_opsgenie_alerts
   cloudwatch_opsgenie_alerts_sns_endpoint       = var.cloudwatch_opsgenie_alerts_sns_endpoint
 
+  datadog_api_key = var.datadog_api_key
+  datadog_app_key = var.datadog_app_key
+  datadog_region  = var.datadog_region
+  datadog_api_url = local.datadog_region != "" ? {
+    "US1"     = "https://api.datadoghq.com/",
+    "US3"     = "https://api.us3.datadoghq.com/",
+    "US5"     = "https://api.us5.datadoghq.com/",
+    "EU1"     = "https://api.datadoghq.eu/",
+    "US1-FED" = "https://api.ddog-gov.com/",
+    "AP1"     = "https://api.ap1.datadoghq.com/"
+  }[local.datadog_region] : "https://api.datadoghq.com/"
+  enable_datadog_aws_integration               = var.enable_datadog_aws_integration
+  datadog_resource_collection_excluded_regions = setsubtract(data.aws_regions.current.names, [local.aws_region, "us-east-1"])
+
   codestar_connections = var.codestar_connections
 
   enable_ssm_dhmc = var.enable_ssm_dhmc
