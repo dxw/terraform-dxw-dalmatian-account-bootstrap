@@ -167,6 +167,28 @@ variable "logging_bucket_retention" {
   type        = number
 }
 
+variable "datadog_api_key" {
+  description = "Datadog API key"
+  type        = string
+  sensitive   = true
+}
+
+variable "datadog_app_key" {
+  description = "Datadog App key"
+  type        = string
+  sensitive   = true
+}
+
+variable "datadog_region" {
+  description = "Datadog region"
+  type        = string
+}
+
+variable "enable_datadog_aws_integration" {
+  description = "Conditionally create the datadog AWS integration role (https://docs.datadoghq.com/integrations/guide/aws-terraform-setup/) and configure the datadog integration"
+  type        = bool
+}
+
 variable "custom_iam_roles" {
   type = map(object({
     description = string
