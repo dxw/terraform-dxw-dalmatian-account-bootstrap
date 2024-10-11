@@ -166,3 +166,27 @@ variable "logging_bucket_retention" {
   description = "Logging bucket retention in days. Set to 0 to keep all logs."
   type        = number
 }
+
+variable "custom_iam_roles" {
+  type = map(object({
+    description = string
+    policies = map(object({
+      description = string
+      Version     = string
+      Statement = list(object({
+        Action   = list(string)
+        Effect   = string
+        Resource = string
+      }))
+    }))
+    assume_role_policy = object({
+      Version = string
+      Statement = list(object({
+        Action    = list(string)
+        Effect    = string
+        Principal = map(string)
+      }))
+    })
+  }))
+  description = "Configure custom IAM roles/policies"
+}
