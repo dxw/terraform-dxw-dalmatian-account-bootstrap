@@ -15,6 +15,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.3 |
 | <a name="requirement_archive"></a> [archive](#requirement\_archive) | >= 2.4.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.11.0 |
+| <a name="requirement_datadog"></a> [datadog](#requirement\_datadog) | >= 3.46.0 |
 
 ## Providers
 
@@ -23,6 +24,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.6.0 |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.70.0 |
 | <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.70.0 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.46.0 |
 
 ## Modules
 
@@ -46,17 +48,23 @@ for dxw's Dalmatian hosting platform.
 | [aws_iam_policy.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cloudwatch_slack_alerts_logs_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.datadog_aws_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.datadog_aws_integration_resource_collection](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.delete_default_resources_vpc_delete_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cloudwatch_slack_alerts_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.datadog_aws_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cloudwatch_slack_alerts_logs_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.datadog_aws_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.datadog_aws_integration_resource_collection](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.datadog_aws_integration_security_audit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.delete_default_resources_vpc_delete_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -106,9 +114,11 @@ for dxw's Dalmatian hosting platform.
 | [aws_sns_topic_subscription.cloudwatch_opsgenie_alerts_subscription_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_sns_topic_subscription.cloudwatch_slack_alerts_lambda_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_ssm_service_setting.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_service_setting) | resource |
+| [datadog_integration_aws.aws](https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws) | resource |
 | [archive_file.cloudwatch_slack_alerts_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [archive_file.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_regions.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/regions) | data source |
 
 ## Inputs
 
@@ -130,11 +140,15 @@ for dxw's Dalmatian hosting platform.
 | <a name="input_cloudwatch_slack_alerts_log_retention"></a> [cloudwatch\_slack\_alerts\_log\_retention](#input\_cloudwatch\_slack\_alerts\_log\_retention) | Cloudwatch Slack Alerts log retention. Set to 0 to keep all logs | `number` | n/a | yes |
 | <a name="input_codestar_connections"></a> [codestar\_connections](#input\_codestar\_connections) | CodeStar connections to create | <pre>map(<br/>    object({<br/>      provider_type = string,<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_custom_iam_roles"></a> [custom\_iam\_roles](#input\_custom\_iam\_roles) | Configure custom IAM roles/policies | <pre>map(object({<br/>    description = string<br/>    policies = map(object({<br/>      description = string<br/>      Version     = string<br/>      Statement = list(object({<br/>        Action   = list(string)<br/>        Effect   = string<br/>        Resource = string<br/>      }))<br/>    }))<br/>    assume_role_policy = object({<br/>      Version = string<br/>      Statement = list(object({<br/>        Action    = list(string)<br/>        Effect    = string<br/>        Principal = map(string)<br/>      }))<br/>    })<br/>  }))</pre> | n/a | yes |
+| <a name="input_datadog_api_key"></a> [datadog\_api\_key](#input\_datadog\_api\_key) | Datadog API key | `string` | n/a | yes |
+| <a name="input_datadog_app_key"></a> [datadog\_app\_key](#input\_datadog\_app\_key) | Datadog App key | `string` | n/a | yes |
+| <a name="input_datadog_region"></a> [datadog\_region](#input\_datadog\_region) | Datadog region | `string` | n/a | yes |
 | <a name="input_delete_default_resources_lambda_kms_encryption"></a> [delete\_default\_resources\_lambda\_kms\_encryption](#input\_delete\_default\_resources\_lambda\_kms\_encryption) | Conditionally encrypt the Delete Default Resources Lambda logs with KMS | `bool` | n/a | yes |
 | <a name="input_delete_default_resources_log_retention"></a> [delete\_default\_resources\_log\_retention](#input\_delete\_default\_resources\_log\_retention) | Log retention for the Delete Default Resources Lambda | `number` | n/a | yes |
 | <a name="input_enable_cloudtrail"></a> [enable\_cloudtrail](#input\_enable\_cloudtrail) | Enable Cloudtrail | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_opsgenie_alerts"></a> [enable\_cloudwatch\_opsgenie\_alerts](#input\_enable\_cloudwatch\_opsgenie\_alerts) | Enable CloudWatch Opsgenie alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then sent to the Opsgenie SNS endpoint. | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_slack_alerts"></a> [enable\_cloudwatch\_slack\_alerts](#input\_enable\_cloudwatch\_slack\_alerts) | Enable CloudWatch Slack alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then picked up by a Lambda function that forwards them to a Slack webhook. | `bool` | n/a | yes |
+| <a name="input_enable_datadog_aws_integration"></a> [enable\_datadog\_aws\_integration](#input\_enable\_datadog\_aws\_integration) | Conditionally create the datadog AWS integration role (https://docs.datadoghq.com/integrations/guide/aws-terraform-setup/) and configure the datadog integration | `bool` | n/a | yes |
 | <a name="input_enable_delete_default_resources"></a> [enable\_delete\_default\_resources](#input\_enable\_delete\_default\_resources) | Creates a Lambda function which deletes all default VPCs and resources within them. This only needs to be ran once, either through the AWS console or via the AWS CLI | `bool` | n/a | yes |
 | <a name="input_enable_route53_root_hosted_zone"></a> [enable\_route53\_root\_hosted\_zone](#input\_enable\_route53\_root\_hosted\_zone) | Conditionally create Route53 hosted zone, which will contain the DNS records for resources launched within the account. | `bool` | n/a | yes |
 | <a name="input_enable_s3_tfvars"></a> [enable\_s3\_tfvars](#input\_enable\_s3\_tfvars) | enable\_s3\_tfvars | `bool` | n/a | yes |
