@@ -12,3 +12,6 @@ backend.vars
 
 # caches
 lambdas/.zip-cache/*
+
+# Junk files
+.DS_Store

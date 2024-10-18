@@ -189,6 +189,26 @@ variable "enable_datadog_aws_integration" {
   type        = bool
 }
 
+variable "enable_datadog_forwarder" {
+  description = "Conditionally launch Datadog AWS service log forwarder lambda"
+  type        = bool
+}
+
+variable "datadog_forwarder_log_retention" {
+  description = "Datadog Forwarder S3 bucket retention in days. Set to 0 to keep all logs."
+  type        = number
+}
+
+variable "datadog_forwarder_store_failed_events" {
+  description = "Set environment variable DD_STORE_FAILED_EVENTS on the Forwarder. Set to true to enable the forwarder to also store event data in the S3 bucket"
+  type        = bool
+}
+
+variable "datadog_forwarder_enhanced_metrics" {
+  description = "Set the environment variable DD_ENHANCED_METRICS on the Forwarder. Set to false to stop the Forwarder from generating enhanced metrics itself, but it will still forward custom metrics from other lambdas."
+  type        = bool
+}
+
 variable "custom_iam_roles" {
   type = map(object({
     description = string
