@@ -65,16 +65,21 @@ locals {
   datadog_api_key = var.datadog_api_key
   datadog_app_key = var.datadog_app_key
   datadog_region  = var.datadog_region
-  datadog_api_url = local.datadog_region != "" ? {
-    "US1"     = "https://api.datadoghq.com/",
-    "US3"     = "https://api.us3.datadoghq.com/",
-    "US5"     = "https://api.us5.datadoghq.com/",
-    "EU1"     = "https://api.datadoghq.eu/",
-    "US1-FED" = "https://api.ddog-gov.com/",
-    "AP1"     = "https://api.ap1.datadoghq.com/"
-  }[local.datadog_region] : "https://api.datadoghq.com/"
+  datadog_site = local.datadog_region != "" ? {
+    "US1"     = "datadoghq.com",
+    "US3"     = "us3.datadoghq.com",
+    "US5"     = "us5.datadoghq.com",
+    "EU1"     = "datadoghq.eu",
+    "US1-FED" = "ddog-gov.com",
+    "AP1"     = "ap1.datadoghq.com"
+  }[local.datadog_region] : "datadoghq.com"
+  datadog_api_url                              = "https://api.${local.datadog_site}/"
   enable_datadog_aws_integration               = var.enable_datadog_aws_integration
   datadog_resource_collection_excluded_regions = setsubtract(data.aws_regions.current.names, [local.aws_region, "us-east-1"])
+  enable_datadog_forwarder                     = var.enable_datadog_forwarder
+  datadog_forwarder_log_retention              = var.datadog_forwarder_log_retention
+  datadog_forwarder_store_failed_events        = var.datadog_forwarder_store_failed_events
+  datadog_forwarder_enhanced_metrics           = var.datadog_forwarder_enhanced_metrics
 
   codestar_connections = var.codestar_connections
 
