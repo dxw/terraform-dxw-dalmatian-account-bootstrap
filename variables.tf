@@ -191,24 +191,9 @@ variable "enable_datadog_aws_integration" {
 
 variable "custom_iam_roles" {
   type = map(object({
-    description = string
-    policies = map(object({
-      description = string
-      Version     = string
-      Statement = list(object({
-        Action   = list(string)
-        Effect   = string
-        Resource = string
-      }))
-    }))
-    assume_role_policy = object({
-      Version = string
-      Statement = list(object({
-        Action    = list(string)
-        Effect    = string
-        Principal = map(string)
-      }))
-    })
+    description        = string
+    policies           = map(string)
+    assume_role_policy = string
   }))
   description = "Configure custom IAM roles/policies"
 }
