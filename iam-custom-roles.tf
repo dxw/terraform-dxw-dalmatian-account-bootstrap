@@ -12,7 +12,7 @@ resource "aws_iam_policy" "custom" {
       for policy_name, policy in role.policies :
       "${role_name}_${policy_name}" => {
         role_name   = role_name
-        policy_name = policy_name
+        policy_name = "${role_name}-${policy_name}"
         policy      = policy
       }
     }
