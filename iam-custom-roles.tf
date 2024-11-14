@@ -3,7 +3,7 @@ resource "aws_iam_role" "custom" {
 
   name               = each.key
   description        = each.value["description"]
-  assume_role_policy = jsonencode(each.value["assume_role_policy"])
+  assume_role_policy = each.value["assume_role_policy"]
 }
 
 resource "aws_iam_policy" "custom" {
@@ -20,10 +20,7 @@ resource "aws_iam_policy" "custom" {
 
   name        = each.value["policy_name"]
   description = each.value["policy"]["description"]
-  policy = jsonencode({
-    Version   = each.value["policy"]["Version"],
-    Statement = each.value["policy"]["Statement"]
-  })
+  policy      = each.value["policy"]["policy"]
 }
 
 resource "aws_iam_role_policy_attachment" "custom" {
