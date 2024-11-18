@@ -200,3 +200,11 @@ variable "custom_iam_roles" {
   }))
   description = "Configure custom IAM roles/policies"
 }
+
+variable "openid_connect_providers" {
+  description = "Conditionally create OpenID connect providers. The thumbprints will be automatically generated"
+  type = map(object({
+    host           = string
+    client_id_list = list(string)
+  }))
+}

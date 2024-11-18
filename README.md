@@ -16,6 +16,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="requirement_archive"></a> [archive](#requirement\_archive) | >= 2.4.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.11.0 |
 | <a name="requirement_datadog"></a> [datadog](#requirement\_datadog) | >= 3.46.0 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.3.4 |
 
 ## Providers
 
@@ -25,6 +26,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.76.0 |
 | <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.76.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.46.0 |
+| <a name="provider_external"></a> [external](#provider\_external) | >= 2.3.4 |
 
 ## Modules
 
@@ -45,6 +47,7 @@ for dxw's Dalmatian hosting platform.
 | [aws_codestarconnections_connection.connections](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codestarconnections_connection) | resource |
 | [aws_glue_catalog_database.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_database) | resource |
 | [aws_glue_catalog_table.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_table) | resource |
+| [aws_iam_openid_connect_provider.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
 | [aws_iam_policy.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cloudwatch_slack_alerts_logs_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.custom](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -119,6 +122,7 @@ for dxw's Dalmatian hosting platform.
 | [archive_file.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_regions.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/regions) | data source |
+| [external_external.oidc_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ## Inputs
 
@@ -154,6 +158,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="input_enable_s3_tfvars"></a> [enable\_s3\_tfvars](#input\_enable\_s3\_tfvars) | enable\_s3\_tfvars | `bool` | n/a | yes |
 | <a name="input_enable_ssm_dhmc"></a> [enable\_ssm\_dhmc](#input\_enable\_ssm\_dhmc) | Enables SSM Default Host Management Configuration | `bool` | n/a | yes |
 | <a name="input_logging_bucket_retention"></a> [logging\_bucket\_retention](#input\_logging\_bucket\_retention) | Logging bucket retention in days. Set to 0 to keep all logs. | `number` | n/a | yes |
+| <a name="input_openid_connect_providers"></a> [openid\_connect\_providers](#input\_openid\_connect\_providers) | Conditionally create OpenID connect providers. The thumbprints will be automatically generated | <pre>map(object({<br/>    host           = string<br/>    client_id_list = list(string)<br/>  }))</pre> | n/a | yes |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Project name to be used as a prefix for all resources | `string` | n/a | yes |
 | <a name="input_route53_root_hosted_zone_domain_name"></a> [route53\_root\_hosted\_zone\_domain\_name](#input\_route53\_root\_hosted\_zone\_domain\_name) | Route53 root hosted zone domain name | `string` | n/a | yes |
 | <a name="input_tfvars_s3_enable_s3_bucket_logging"></a> [tfvars\_s3\_enable\_s3\_bucket\_logging](#input\_tfvars\_s3\_enable\_s3\_bucket\_logging) | Enable S3 bucket logging on the tfvars S3 bucket | `bool` | `true` | no |
