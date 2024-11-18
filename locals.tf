@@ -82,6 +82,8 @@ locals {
 
   custom_iam_roles = var.custom_iam_roles
 
+  openid_connect_providers = var.openid_connect_providers
+
   enable_logs_bucket       = local.cloudtrail_s3_access_logs || local.cloudtrail_athena_glue_tables
   logging_bucket_retention = var.logging_bucket_retention
   logs_bucket_source_arns = concat(
