@@ -16,17 +16,16 @@ for dxw's Dalmatian hosting platform.
 | <a name="requirement_archive"></a> [archive](#requirement\_archive) | >= 2.4.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.11.0 |
 | <a name="requirement_datadog"></a> [datadog](#requirement\_datadog) | >= 3.46.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.3.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.6.0 |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.76.0 |
-| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.76.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.77.0 |
+| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.77.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.46.0 |
-| <a name="provider_external"></a> [external](#provider\_external) | >= 2.3.4 |
+| <a name="provider_external"></a> [external](#provider\_external) | n/a |
 
 ## Modules
 
