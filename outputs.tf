@@ -86,5 +86,17 @@ output "resource_map" {
       logging_bucket_name                   = local.enable_s3_tfvars && local.tfvars_s3_enable_s3_bucket_logging ? module.aws_tfvars_s3[0].aws_s3_bucket_logs.bucket : null
       loggin_bucket_retention               = local.enable_s3_tfvars && local.tfvars_s3_enable_s3_bucket_logging ? local.tfvars_s3_logging_bucket_retention : null
     }
+    datadog = {
+      _description                         = "Datadog integration"
+      enabled                              = local.enable_datadog_aws_integration
+      region                               = local.enable_datadog_aws_integration ? local.datadog_region : null
+      site                                 = local.enable_datadog_aws_integration ? local.datadog_site : null
+      api_url                              = local.enable_datadog_aws_integration ? local.datadog_api_url : null
+      resource_collection_excluded_regions = local.enable_datadog_aws_integration ? setsubtract(data.aws_regions.current.names, [local.aws_region, "us-east-1"]) : null
+      log_forwarder_enabled                = local.enable_datadog_aws_integration ? local.enable_datadog_forwarder : false
+      forwarder_log_retention              = local.enable_datadog_aws_integration ? local.datadog_forwarder_log_retention : null
+      forwarder_store_failed_events        = local.enable_datadog_aws_integration ? local.datadog_forwarder_store_failed_events : null
+      forwarder_enhanced_metrics           = local.enable_datadog_aws_integration ? local.datadog_forwarder_enhanced_metrics : null
+    }
   }
 }
