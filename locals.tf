@@ -91,6 +91,13 @@ locals {
     local.cloudtrail_athena_glue_tables ? [aws_s3_bucket.athena_cloudtrail_output[0].arn] : [],
   )
 
+  enable_aws_config                      = var.enable_aws_config
+  aws_config_recorder_configuration      = var.aws_config_recorder_configuration
+  aws_config_s3_kms_encryption           = var.aws_config_s3_kms_encryption && local.enable_aws_config
+  aws_config_s3_retention                = var.aws_config_s3_retention
+  aws_config_delivery_channel_frequency  = var.aws_config_delivery_channel_frequency
+  aws_config_delivery_notification_email = var.aws_config_delivery_notification_email
+
   default_tags = {
     Project = local.project_name,
   }

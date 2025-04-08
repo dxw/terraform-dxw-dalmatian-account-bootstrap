@@ -208,3 +208,38 @@ variable "openid_connect_providers" {
     client_id_list = list(string)
   }))
 }
+
+variable "enable_aws_config" {
+  description = "Conditionally enable AWS Config"
+  type        = bool
+}
+
+variable "aws_config_recorder_configuration" {
+  description = "AWS Config Recorder configuration"
+  type = object({
+    all_supported                 = optional(bool, null)
+    include_global_resource_types = optional(bool, null)
+    resource_types                = optional(list, null)
+    recording_frequency           = optional(string, null)
+  })
+}
+
+variable "aws_config_s3_kms_encryption" {
+  description = "Conditionally create a KMS key and enable encryption for the AWS Config S3 bucket"
+  type        = bool
+}
+
+variable "aws_config_s3_retention" {
+  description = "Conditionally add a retention period to the AWS Config S3 bucket"
+  type        = number
+}
+
+variable "aws_config_delivery_channel_frequency" {
+  description = "AWS Config Delivery channel frequency (1/3/6/12/24hours)"
+  type        = string
+}
+
+variable "aws_config_delivery_notification_email" {
+  description = "AWS Config Delivery notification email"
+  type        = string
+}
