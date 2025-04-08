@@ -24,6 +24,7 @@ for dxw's Dalmatian hosting platform.
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.7.0 |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.92.0 |
+| <a name="provider_aws.sns2sqs"></a> [aws.sns2sqs](#provider\_aws.sns2sqs) | 5.92.0 |
 | <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.92.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.46.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | >= 2.3.4 |
@@ -72,12 +73,14 @@ for dxw's Dalmatian hosting platform.
 | [aws_iam_role_policy_attachment.delete_default_resources_vpc_delete_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_alias.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
+| [aws_kms_alias.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_alias.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_alias.cloudwatch_opsgenie_alerts_sns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_alias.cloudwatch_opsgenie_alerts_sns_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_alias.cloudwatch_slack_alerts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_alias.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
 | [aws_kms_key.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_kms_key.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_kms_key.cloudtrail_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_kms_key.cloudwatch_opsgenie_alerts_sns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_kms_key.cloudwatch_opsgenie_alerts_sns_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
@@ -88,34 +91,44 @@ for dxw's Dalmatian hosting platform.
 | [aws_lambda_permission.cloudwatch_slack_alerts_sns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_route53_zone.root](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone) | resource |
 | [aws_s3_bucket.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_lifecycle_configuration.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_lifecycle_configuration.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_lifecycle_configuration.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_lifecycle_configuration.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_logging.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
+| [aws_s3_bucket_logging.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_logging.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_policy.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
+| [aws_s3_bucket_policy.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_policy.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_policy.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_s3_bucket_public_access_block.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.athena_cloudtrail_output](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_s3_bucket_versioning.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_bucket_versioning.cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_bucket_versioning.logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_sns_topic.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_sns_topic.cloudwatch_opsgenie_alerts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_sns_topic.cloudwatch_opsgenie_alerts_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_sns_topic.cloudwatch_slack_alerts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sns_topic_policy.aws_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_sns_topic_policy.sns_cloudwatch_opsgenie_alerts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_sns_topic_policy.sns_cloudwatch_opsgenie_alerts_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_sns_topic_policy.sns_cloudwatch_slack_alerts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_sns_topic_subscription.cloudwatch_opsgenie_alerts_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_sns_topic_subscription.cloudwatch_opsgenie_alerts_subscription_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_sns_topic_subscription.cloudwatch_slack_alerts_lambda_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
+| [aws_sns_topic_subscription.sns-topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_ssm_service_setting.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_service_setting) | resource |
 | [datadog_integration_aws.aws](https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws) | resource |
 | [archive_file.cloudwatch_slack_alerts_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
@@ -128,6 +141,11 @@ for dxw's Dalmatian hosting platform.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aws_config_delivery_channel_frequency"></a> [aws\_config\_delivery\_channel\_frequency](#input\_aws\_config\_delivery\_channel\_frequency) | AWS Config Delivery channel frequency (1/3/6/12/24hours) | `string` | n/a | yes |
+| <a name="input_aws_config_delivery_notification_email"></a> [aws\_config\_delivery\_notification\_email](#input\_aws\_config\_delivery\_notification\_email) | AWS Config Delivery notification email | `string` | n/a | yes |
+| <a name="input_aws_config_recorder_configuration"></a> [aws\_config\_recorder\_configuration](#input\_aws\_config\_recorder\_configuration) | AWS Config Recorder configuration | <pre>object({<br/>    all_supported                 = optional(bool, null)<br/>    include_global_resource_types = optional(bool, null)<br/>    resource_types                = optional(list, null)<br/>    recording_frequency           = optional(string, null)<br/>  })</pre> | n/a | yes |
+| <a name="input_aws_config_s3_kms_encryption"></a> [aws\_config\_s3\_kms\_encryption](#input\_aws\_config\_s3\_kms\_encryption) | Conditionally create a KMS key and enable encryption for the AWS Config S3 bucket | `bool` | n/a | yes |
+| <a name="input_aws_config_s3_retention"></a> [aws\_config\_s3\_retention](#input\_aws\_config\_s3\_retention) | Conditionally add a retention period to the AWS Config S3 bucket | `number` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region in which to launch resources | `string` | n/a | yes |
 | <a name="input_cloudtrail_athena_glue_tables"></a> [cloudtrail\_athena\_glue\_tables](#input\_cloudtrail\_athena\_glue\_tables) | Create the Glue database and tables for CloudTrail to be used with Athena | `bool` | n/a | yes |
 | <a name="input_cloudtrail_athena_s3_output_kms_encryption"></a> [cloudtrail\_athena\_s3\_output\_kms\_encryption](#input\_cloudtrail\_athena\_s3\_output\_kms\_encryption) | Use KMS encryption with the CloudTrail Athena output S3 bucket | `bool` | n/a | yes |
@@ -149,6 +167,7 @@ for dxw's Dalmatian hosting platform.
 | <a name="input_datadog_region"></a> [datadog\_region](#input\_datadog\_region) | Datadog region | `string` | n/a | yes |
 | <a name="input_delete_default_resources_lambda_kms_encryption"></a> [delete\_default\_resources\_lambda\_kms\_encryption](#input\_delete\_default\_resources\_lambda\_kms\_encryption) | Conditionally encrypt the Delete Default Resources Lambda logs with KMS | `bool` | n/a | yes |
 | <a name="input_delete_default_resources_log_retention"></a> [delete\_default\_resources\_log\_retention](#input\_delete\_default\_resources\_log\_retention) | Log retention for the Delete Default Resources Lambda | `number` | n/a | yes |
+| <a name="input_enable_aws_config"></a> [enable\_aws\_config](#input\_enable\_aws\_config) | Conditionally enable AWS Config | `bool` | n/a | yes |
 | <a name="input_enable_cloudtrail"></a> [enable\_cloudtrail](#input\_enable\_cloudtrail) | Enable Cloudtrail | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_opsgenie_alerts"></a> [enable\_cloudwatch\_opsgenie\_alerts](#input\_enable\_cloudwatch\_opsgenie\_alerts) | Enable CloudWatch Opsgenie alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then sent to the Opsgenie SNS endpoint. | `bool` | n/a | yes |
 | <a name="input_enable_cloudwatch_slack_alerts"></a> [enable\_cloudwatch\_slack\_alerts](#input\_enable\_cloudwatch\_slack\_alerts) | Enable CloudWatch Slack alerts. This creates an SNS topic to which alerts and pipelines can send messages, which are then picked up by a Lambda function that forwards them to a Slack webhook. | `bool` | n/a | yes |
