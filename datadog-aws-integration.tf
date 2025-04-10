@@ -6,7 +6,7 @@ resource "aws_iam_role" "datadog_aws_integration" {
   assume_role_policy = templatefile(
     "${path.root}/policies/assume-roles/external-id.json.tpl", {
       iam_arns    = jsonencode(["arn:aws:iam::464622532012:root"]),
-      external_id = datadog_integration_aws.aws[0].external_id
+      external_id = datadog_integration_aws_external_id.aws[0].id
     }
   )
 }
@@ -50,10 +50,40 @@ resource "aws_iam_role_policy_attachment" "datadog_aws_integration_security_audi
   policy_arn = "arn:aws:iam::aws:policy/SecurityAudit"
 }
 
-resource "datadog_integration_aws" "aws" {
+resource "datadog_integration_aws_external_id" "aws" {
+  count = local.enable_datadog_aws_integration ? 1 : 0
+}
+
+resource "datadog_integration_aws_account" "aws" {
   count = local.enable_datadog_aws_integration ? 1 : 0
 
-  account_id       = local.aws_account_id
-  role_name        = "${local.project_name_hash}-datadog-aws-integration"
-  excluded_regions = local.datadog_resource_collection_excluded_regions
+  aws_account_id = "234567890123"
+  aws_partition  = "aws"
+  aws_regions {
+    include_only = [
+      local.aws_region,
+      "us-east-1"
+    ]
+  }
+
+  auth_config {
+    aws_auth_config_role {
+      role_name   = "${local.project_name_hash}-datadog-aws-integration"
+      external_id = datadog_integration_aws_external_id.aws[0].id
+    }
+  }
+
+  logs_config {
+    lambda_forwarder {}
+  }
+
+  metrics_config {
+    namespace_filters {}
+  }
+
+  resources_config {}
+
+  traces_config {
+    xray_services {}
+  }
 }
