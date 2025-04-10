@@ -73,8 +73,7 @@ locals {
     "US1-FED" = "https://api.ddog-gov.com/",
     "AP1"     = "https://api.ap1.datadoghq.com/"
   }[local.datadog_region] : "https://api.datadoghq.com/"
-  enable_datadog_aws_integration               = var.enable_datadog_aws_integration
-  datadog_resource_collection_excluded_regions = setsubtract(data.aws_regions.current.names, [local.aws_region, "us-east-1"])
+  enable_datadog_aws_integration = var.enable_datadog_aws_integration
 
   codestar_connections = var.codestar_connections
 

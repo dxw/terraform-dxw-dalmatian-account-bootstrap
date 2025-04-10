@@ -117,11 +117,11 @@ for dxw's Dalmatian hosting platform.
 | [aws_sns_topic_subscription.cloudwatch_opsgenie_alerts_subscription_us_east_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_sns_topic_subscription.cloudwatch_slack_alerts_lambda_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_ssm_service_setting.ssm_dhmc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_service_setting) | resource |
-| [datadog_integration_aws.aws](https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws) | resource |
+| [datadog_integration_aws_account.aws](https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws_account) | resource |
+| [datadog_integration_aws_external_id.aws](https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws_external_id) | resource |
 | [archive_file.cloudwatch_slack_alerts_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [archive_file.delete_default_resources_lambda](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-| [aws_regions.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/regions) | data source |
 | [external_external.oidc_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ## Inputs
