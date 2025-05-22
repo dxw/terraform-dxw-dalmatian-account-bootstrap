@@ -23,8 +23,8 @@ for dxw's Dalmatian hosting platform.
 | Name | Version |
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.7.1 |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.97.0 |
-| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.97.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.98.0 |
+| <a name="provider_aws.useast1"></a> [aws.useast1](#provider\_aws.useast1) | 5.98.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.46.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | >= 2.3.4 |
 
