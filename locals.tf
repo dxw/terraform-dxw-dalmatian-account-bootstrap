@@ -18,6 +18,7 @@ locals {
   enable_route53_root_hosted_zone      = var.enable_route53_root_hosted_zone && local.route53_root_hosted_zone_domain_name != ""
 
   enable_cloudtrail                          = var.enable_cloudtrail
+  enable_cloudtrail_s3_object_level_logging  = var.enable_cloudtrail_s3_object_level_logging
   cloudtrail_kms_encryption                  = var.cloudtrail_kms_encryption
   cloudtrail_log_retention                   = var.cloudtrail_log_retention
   cloudtrail_log_prefix                      = var.cloudtrail_log_prefix

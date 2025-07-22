@@ -73,6 +73,11 @@ variable "enable_cloudtrail" {
   type        = bool
 }
 
+variable "enable_cloudtrail_s3_object_level_logging" {
+  description = "Enable S3 object level logging"
+  type        = bool
+}
+
 variable "cloudtrail_kms_encryption" {
   description = "Use KMS encryption with CloudTrail"
   type        = bool
