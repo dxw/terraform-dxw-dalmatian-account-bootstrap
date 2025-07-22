@@ -104,6 +104,29 @@ resource "aws_cloudtrail" "cloudtrail" {
   enable_log_file_validation    = true
   kms_key_id                    = local.cloudtrail_kms_encryption ? aws_kms_key.cloudtrail_cloudwatch_logs[0].arn : null
 
+  dynamic "advanced_event_selector" {
+    for_each = local.enable_cloudtrail_s3_object_level_logging ? [1] : []
+
+    content {
+      name = "S3ObjectLevelLoggingExcludingCloudTrailBucket"
+
+      field_selector {
+        field  = "eventCategory"
+        equals = ["Data"]
+      }
+
+      field_selector {
+        field  = "resources.type"
+        equals = ["AWS::S3::Object"]
+      }
+
+      field_selector {
+        field           = "resources.ARN"
+        not_starts_with = ["${aws_s3_bucket.cloudtrail[0].arn}/"]
+      }
+    }
+  }
+
   depends_on = [
     aws_s3_bucket_policy.cloudtrail
   ]
