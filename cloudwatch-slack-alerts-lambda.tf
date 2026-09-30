@@ -53,7 +53,7 @@ resource "aws_lambda_function" "cloudwatch_slack_alerts" {
   function_name    = "${local.project_name}-cloudwatch-slack-alerts"
   description      = "${local.project_name} CloudWatch Slack Alerts"
   handler          = "function.lambda_handler"
-  runtime          = "python3.11"
+  runtime          = "python3.13"
   role             = aws_iam_role.cloudwatch_slack_alerts_lambda[0].arn
   source_code_hash = data.archive_file.cloudwatch_slack_alerts_lambda[0].output_base64sha256
   memory_size      = 128
