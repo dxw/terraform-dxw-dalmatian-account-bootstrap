@@ -2,6 +2,7 @@ import boto3
 import json
 import logging
 import os
+import re
 
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
@@ -33,6 +34,58 @@ def pipeline_slack_message(message):
         {
           'text': text,
           'color': PIPELINE_STATE_COLOURS.get(state, "warning")
+        }
+      ]
+    }
+
+AUTOSCALING_DETAIL_TYPES = (
+  "CloudWatch Alarm State Change",
+  "EC2 Instance Launch Successful",
+  "EC2 Instance Terminate Successful",
+  "EC2 Instance Launch Unsuccessful",
+  "EC2 Instance Terminate Unsuccessful",
+  "ECS Service Action",
+)
+
+def slack_escape(text):
+    return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+def autoscaling_slack_message(message):
+    detail_type = message['detail-type']
+    detail = message['detail']
+    asg = detail.get('AutoScalingGroupName')
+    target_tracking = re.match(r"TargetTracking-service/([^/]+)/(.+)-Alarm(High|Low)-", detail.get('alarmName') or '')
+    if detail_type == "CloudWatch Alarm State Change" and target_tracking:
+      cluster, service, alarm = target_tracking.groups()
+      scaling_out = alarm == "High"
+      text = "Service %s (%s) scaling %s" % (slack_escape(service), slack_escape(cluster), "out" if scaling_out else "in")
+      color = "#439FE0" if scaling_out else "#9E9E9E"
+    elif detail_type in ("EC2 Instance Launch Successful", "EC2 Instance Terminate Successful"):
+      launched = detail_type == "EC2 Instance Launch Successful"
+      capacity = re.search(r"changing the desired capacity from (\d+) to (\d+)", detail.get('Cause') or '')
+      if capacity:
+        text = "%s instances %s \u2192 %s (%s %s)" % (asg, capacity.group(1), capacity.group(2), "launched" if launched else "terminated", detail.get('EC2InstanceId'))
+      else:
+        text = "%s %s" % (asg, slack_escape(detail.get('Description')))
+      color = "#439FE0" if launched else "#9E9E9E"
+    elif detail_type in ("EC2 Instance Launch Unsuccessful", "EC2 Instance Terminate Unsuccessful"):
+      action = "launch" if detail_type == "EC2 Instance Launch Unsuccessful" else "terminate"
+      text = "%s %s failed: %s" % (asg, action, slack_escape(detail.get('StatusMessage')))
+      color = "danger"
+    elif detail_type == "ECS Service Action" and detail.get('eventName') == "SERVICE_TASK_PLACEMENT_FAILURE":
+      resources = message.get('resources') or []
+      service = resources[0].split('/')[-1] if resources else "unknown"
+      text = "Service %s could not place tasks: %s" % (service, slack_escape(detail.get('reason')))
+      color = "danger"
+    else:
+      text = detail_type
+      color = "warning"
+    return {
+      'channel': SLACK_CHANNEL,
+      'attachments': [
+        {
+          'text': text,
+          'color': color
         }
       ]
     }
@@ -70,6 +123,8 @@ def lambda_handler(event, context):
       detail_type = message['detail-type']
       if detail_type == "CodePipeline Pipeline Execution State Change":
         slack_message = pipeline_slack_message(message)
+      elif detail_type in AUTOSCALING_DETAIL_TYPES:
+        slack_message = autoscaling_slack_message(message)
     elif "message" in message.keys():
       message_color = "good"
       slack_message = {
