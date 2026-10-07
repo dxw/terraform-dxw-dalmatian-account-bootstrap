@@ -102,7 +102,7 @@ resource "aws_lambda_function" "delete_default_resources" {
   function_name    = "${local.project_name}-delete-default-resources"
   description      = "${local.project_name} Delete Default Resources"
   handler          = "function.lambda_handler"
-  runtime          = "python3.11"
+  runtime          = "python3.13"
   role             = aws_iam_role.delete_default_resources_lambda[0].arn
   source_code_hash = data.archive_file.delete_default_resources_lambda[0].output_base64sha256
   memory_size      = 128
