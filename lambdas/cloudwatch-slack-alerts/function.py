@@ -12,6 +12,31 @@ HOOK_URL = os.environ['slackHookUrl']
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+PIPELINE_STATE_COLOURS = {
+  "STARTED": "#439FE0",
+  "SUCCEEDED": "good",
+  "FAILED": "danger",
+}
+
+def pipeline_slack_message(message):
+    pipeline = message['detail']['pipeline']
+    state = message['detail']['state']
+    text = "Pipeline %s %s" % (pipeline, state)
+    region = message.get('region')
+    execution_id = message['detail'].get('execution-id')
+    if region and execution_id:
+      url = "https://%s.console.aws.amazon.com/codesuite/codepipeline/pipelines/%s/executions/%s/timeline?region=%s" % (region, pipeline, execution_id, region)
+      text = "%s\n<%s|View execution>" % (text, url)
+    return {
+      'channel': SLACK_CHANNEL,
+      'attachments': [
+        {
+          'text': text,
+          'color': PIPELINE_STATE_COLOURS.get(state, "warning")
+        }
+      ]
+    }
+
 def lambda_handler(event, context):
     logger.info("Event: " + str(event))
     try:
@@ -44,21 +69,7 @@ def lambda_handler(event, context):
     elif "detail-type" in message.keys():
       detail_type = message['detail-type']
       if detail_type == "CodePipeline Pipeline Execution State Change":
-        pipeline = message['detail']['pipeline']
-        pipeline_state = message['detail']['state']
-        if pipeline_state == "FAILED":
-          message_color = "danger"
-        else:
-          message_color = "good"
-        slack_message = {
-          'channel': SLACK_CHANNEL,
-          'attachments': [
-            {
-              'text': "Pipeline %s %s" % (pipeline, pipeline_state),
-              'color': message_color
-            }
-          ]
-        }
+        slack_message = pipeline_slack_message(message)
     elif "message" in message.keys():
       message_color = "good"
       slack_message = {
@@ -108,7 +119,7 @@ CodePipeline:
       "EventVersion": "1.0",
       "Sns": {
         "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
-        "Message": "{\"detail-type\": \"CodePipeline Pipeline Execution State Change\",\"detail\": {\"pipeline\": \"Test pipeline\", \"state\": \"STARTED\"}}",
+        "Message": "{\"detail-type\": \"CodePipeline Pipeline Execution State Change\", \"source\": \"aws.codepipeline\", \"region\": \"eu-west-2\", \"detail\": {\"pipeline\": \"Test pipeline\", \"execution-id\": \"01234567-89ab-cdef-0123-456789abcdef\", \"state\": \"STARTED\", \"version\": 1}}",
         "Timestamp": "1970-01-01T00:00:00.000Z"
       }
     }
