@@ -4,6 +4,8 @@ import logging
 import os
 import re
 
+from time import sleep
+from urllib.parse import parse_qs, urlsplit
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
@@ -19,6 +21,79 @@ PIPELINE_STATE_COLOURS = {
   "FAILED": "danger",
 }
 
+# A STARTED event fires before the source action has recorded its revision.
+SOURCE_REVISION_ATTEMPTS = 5
+SOURCE_REVISION_INTERVAL_SECONDS = 2
+
+def pipeline_source_revision(region, pipeline, execution_id, state):
+    attempts = SOURCE_REVISION_ATTEMPTS if state == "STARTED" else 1
+    try:
+      client = boto3.client('codepipeline', region_name=region)
+      for attempt in range(attempts):
+        if attempt:
+          sleep(SOURCE_REVISION_INTERVAL_SECONDS)
+        execution = client.get_pipeline_execution(pipelineName=pipeline, pipelineExecutionId=execution_id)
+        revisions = execution['pipelineExecution'].get('artifactRevisions') or []
+        if revisions:
+          return revisions[0]
+    except Exception as e:
+      logger.warning("Could not look up source revision for %s %s: %s", pipeline, execution_id, e)
+    return None
+
+def revision_summary(summary):
+    # CodeStar connection sources put a JSON object in revisionSummary.
+    try:
+      parsed = json.loads(summary)
+    except (TypeError, ValueError):
+      parsed = None
+    if isinstance(parsed, dict):
+      return parsed.get('ProviderType'), parsed.get('CommitMessage') or ''
+    return None, summary
+
+def commit_message(summary):
+    return str(summary or '').strip().split("\n")[0]
+
+PROVIDER_COMMIT_URLS = {
+  "GitHub": "https://github.com/%s/commit/%s",
+  "Bitbucket": "https://bitbucket.org/%s/commits/%s",
+  "GitLab": "https://gitlab.com/%s/-/commit/%s",
+}
+REPOSITORY_SEGMENT = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_.-]*")
+COMMIT_SHA = re.compile(r"[0-9a-f]{7,64}")
+
+def provider_commit_url(provider, url):
+    # A connection's revisionUrl is a console redirect; link the commit on the provider instead.
+    template = PROVIDER_COMMIT_URLS.get(provider)
+    if not template or not isinstance(url, str):
+      return None
+    query = parse_qs(urlsplit(url).query)
+    repository = (query.get('FullRepositoryId') or [''])[0]
+    commit = (query.get('Commit') or [''])[0]
+    segments = repository.split('/')
+    if len(segments) < 2 or not all(REPOSITORY_SEGMENT.fullmatch(segment) for segment in segments):
+      return None
+    if not COMMIT_SHA.fullmatch(commit):
+      return None
+    return template % (repository, commit)
+
+def safe_link_url(url):
+    return isinstance(url, str) and url.startswith("https://") and not re.search(r"[\s<>|]", url)
+
+def commit_text(revision):
+    commit = slack_escape(str(revision.get('revisionId') or '')[:7])
+    if not commit:
+      return None
+    provider, summary = revision_summary(revision.get('revisionSummary'))
+    url = revision.get('revisionUrl')
+    url = provider_commit_url(provider, url) or url
+    if safe_link_url(url):
+      commit = "<%s|%s>" % (url, commit)
+    text = "Commit %s" % commit
+    summary = commit_message(summary)
+    if summary:
+      text = "%s: %s" % (text, slack_escape(summary))
+    return text
+
 def pipeline_slack_message(message):
     pipeline = message['detail']['pipeline']
     state = message['detail']['state']
@@ -26,6 +101,10 @@ def pipeline_slack_message(message):
     region = message.get('region')
     execution_id = message['detail'].get('execution-id')
     if region and execution_id:
+      revision = pipeline_source_revision(region, pipeline, execution_id, state)
+      commit = commit_text(revision) if revision else None
+      if commit:
+        text = "%s\n%s" % (text, commit)
       url = "https://%s.console.aws.amazon.com/codesuite/codepipeline/pipelines/%s/executions/%s/timeline?region=%s" % (region, pipeline, execution_id, region)
       text = "%s\n<%s|View execution>" % (text, url)
     return {

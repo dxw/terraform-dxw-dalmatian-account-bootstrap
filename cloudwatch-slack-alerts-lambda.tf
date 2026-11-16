@@ -38,6 +38,23 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_slack_alerts_logs_lambda" 
   policy_arn = aws_iam_policy.cloudwatch_slack_alerts_logs_lambda[0].arn
 }
 
+resource "aws_iam_policy" "cloudwatch_slack_alerts_codepipeline_lambda" {
+  count = local.enable_cloudwatch_slack_alerts ? 1 : 0
+
+  name = "${local.project_name}-cloudwatch-slack-alerts-codepipeline-lambda"
+  policy = templatefile(
+    "${path.root}/policies/codepipeline-get-pipeline-execution.json.tpl",
+    { account_id = local.aws_account_id }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_slack_alerts_codepipeline_lambda" {
+  count = local.enable_cloudwatch_slack_alerts ? 1 : 0
+
+  role       = aws_iam_role.cloudwatch_slack_alerts_lambda[0].name
+  policy_arn = aws_iam_policy.cloudwatch_slack_alerts_codepipeline_lambda[0].arn
+}
+
 data "archive_file" "cloudwatch_slack_alerts_lambda" {
   count = local.enable_cloudwatch_slack_alerts ? 1 : 0
 

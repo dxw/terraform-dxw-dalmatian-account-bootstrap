@@ -46,6 +46,11 @@ def pipeline_event(state, **overrides):
 
 
 class SlackPostTestCase(unittest.TestCase):
+  def setUp(self):
+    patcher = mock.patch.object(function, "pipeline_source_revision", return_value=None)
+    self.source_revision = patcher.start()
+    self.addCleanup(patcher.stop)
+
   def post(self, message):
     with mock.patch.object(function, "urlopen") as urlopen:
       function.lambda_handler(sns_event(message), None)
@@ -87,6 +92,137 @@ class PipelineMessageTest(SlackPostTestCase):
     event = pipeline_event("STARTED")
     del event["region"]
     self.assertEqual(self.post(event)["text"], "Pipeline example-app-staging-ecs-service-app STARTED")
+
+  def test_text_includes_commit_linked_to_revision_url(self):
+    self.source_revision.return_value = {
+      "revisionId": "0123456789abcdef0123456789abcdef01234567",
+      "revisionSummary": json.dumps({"ProviderType": "GitHub", "CommitMessage": "Add widgets\n\nLonger body"}),
+      "revisionUrl": "https://github.com/example/app/commit/0123456789abcdef0123456789abcdef01234567",
+    }
+    text = self.post(pipeline_event("STARTED"))["text"]
+    self.assertEqual(
+      text.split("\n")[1],
+      "Commit <https://github.com/example/app/commit/0123456789abcdef0123456789abcdef01234567|0123456>: Add widgets",
+    )
+    self.source_revision.assert_called_once_with(
+      "eu-west-2", "example-app-staging-ecs-service-app", "01234567-89ab-cdef-0123-456789abcdef", "STARTED"
+    )
+
+  def test_plain_revision_summary_is_used_as_is(self):
+    self.source_revision.return_value = {"revisionId": "abcdef0123456789", "revisionSummary": "Fix the thing"}
+    text = self.post(pipeline_event("SUCCEEDED"))["text"]
+    self.assertEqual(text.split("\n")[1], "Commit abcdef0: Fix the thing")
+
+  def test_commit_without_summary(self):
+    self.source_revision.return_value = {"revisionId": "abcdef0123456789"}
+    self.assertEqual(self.post(pipeline_event("SUCCEEDED"))["text"].split("\n")[1], "Commit abcdef0")
+
+  def test_commit_message_and_revision_are_escaped(self):
+    self.source_revision.return_value = {
+      "revisionId": "<!here>",
+      "revisionSummary": json.dumps({"CommitMessage": "bad <!channel> & <https://example.invalid|x>"}),
+    }
+    text = self.post(pipeline_event("SUCCEEDED"))["text"]
+    self.assertEqual(text.split("\n")[1], "Commit &lt;!here&gt;: bad &lt;!channel&gt; &amp; &lt;https://example.invalid|x&gt;")
+
+  def test_unsafe_revision_url_is_not_linked(self):
+    for url in ("javascript:alert(1)", "https://example.invalid/a|b", "https://example.invalid/<!here>", "https://example.invalid/a b"):
+      with self.subTest(url=url):
+        self.source_revision.return_value = {"revisionId": "abcdef0123456789", "revisionUrl": url}
+        self.assertEqual(self.post(pipeline_event("SUCCEEDED"))["text"].split("\n")[1], "Commit abcdef0")
+
+  def connection_revision(self, provider, repository="example-org/example-app", commit="0123456789abcdef0123456789abcdef01234567"):
+    return {
+      "revisionId": commit,
+      "revisionSummary": json.dumps({"ProviderType": provider, "CommitMessage": "Add widgets"}),
+      "revisionUrl": "https://eu-west-2.console.aws.amazon.com/codesuite/settings/connections/redirect?"
+                     "connectionArn=arn:aws:codestar-connections:eu-west-2:123456789012:connection/"
+                     "00000000-0000-0000-0000-000000000000&referenceType=COMMIT"
+                     "&FullRepositoryId=%s&Commit=%s" % (repository, commit),
+    }
+
+  def commit_line(self, revision):
+    self.source_revision.return_value = revision
+    return self.post(pipeline_event("SUCCEEDED"))["text"].split("\n")[1]
+
+  def test_connection_commit_links_to_provider(self):
+    sha = "0123456789abcdef0123456789abcdef01234567"
+    expected = {
+      "GitHub": "https://github.com/example-org/example-app/commit/%s" % sha,
+      "GitHubEnterpriseServer": None,
+      "Bitbucket": "https://bitbucket.org/example-org/example-app/commits/%s" % sha,
+      "GitLab": "https://gitlab.com/example-org/example-app/-/commit/%s" % sha,
+    }
+    for provider, url in expected.items():
+      with self.subTest(provider=provider):
+        revision = self.connection_revision(provider)
+        url = url or revision["revisionUrl"]
+        self.assertEqual(self.commit_line(revision), "Commit <%s|0123456>: Add widgets" % url)
+
+  def test_gitlab_subgroup_repository(self):
+    revision = self.connection_revision("GitLab", repository="example-org/team/example-app")
+    self.assertIn("<https://gitlab.com/example-org/team/example-app/-/commit/", self.commit_line(revision))
+
+  def test_connection_link_kept_when_repository_or_commit_is_unexpected(self):
+    for repository, commit in (("example-org/../evil", "0123456789abcdef"), ("evil.example", "0123456789abcdef"),
+                               ("example-org/example-app", "not-a-sha"), ("example-org/example-app#x", "0123456789abcdef")):
+      with self.subTest(repository=repository, commit=commit):
+        revision = self.connection_revision("GitHub", repository=repository, commit=commit)
+        self.assertNotIn("github.com", self.commit_line(revision))
+
+  def test_connection_redirect_url_not_rewritten_without_provider(self):
+    revision = self.connection_revision("GitHub")
+    revision["revisionSummary"] = "Add widgets"
+    self.assertIn("<%s|" % revision["revisionUrl"], self.commit_line(revision))
+
+  def test_commit_lookup_skipped_without_execution_id(self):
+    event = pipeline_event("STARTED")
+    del event["detail"]["execution-id"]
+    self.post(event)
+    self.source_revision.assert_not_called()
+
+
+class PipelineSourceRevisionTest(unittest.TestCase):
+  def setUp(self):
+    self.client = mock.Mock()
+    boto3 = mock.Mock(client=mock.Mock(return_value=self.client))
+    for name, value in (("boto3", boto3), ("sleep", mock.Mock())):
+      patcher = mock.patch.object(function, name, value, create=True)
+      patcher.start()
+      self.addCleanup(patcher.stop)
+    self.boto3 = boto3
+
+  def execution(self, *revisions):
+    return {"pipelineExecution": {"artifactRevisions": list(revisions)}}
+
+  def lookup(self, state="SUCCEEDED"):
+    return function.pipeline_source_revision("eu-west-2", "example-pipeline", "exec-1", state)
+
+  def test_returns_first_artifact_revision(self):
+    self.client.get_pipeline_execution.return_value = self.execution({"revisionId": "abc"}, {"revisionId": "def"})
+    self.assertEqual(self.lookup(), {"revisionId": "abc"})
+    self.boto3.client.assert_called_once_with("codepipeline", region_name="eu-west-2")
+    self.client.get_pipeline_execution.assert_called_once_with(pipelineName="example-pipeline", pipelineExecutionId="exec-1")
+
+  def test_started_waits_for_source_revision(self):
+    self.client.get_pipeline_execution.side_effect = [self.execution(), self.execution(), self.execution({"revisionId": "abc"})]
+    self.assertEqual(self.lookup("STARTED"), {"revisionId": "abc"})
+    self.assertEqual(self.client.get_pipeline_execution.call_count, 3)
+
+  def test_started_gives_up_after_bounded_attempts(self):
+    self.client.get_pipeline_execution.return_value = self.execution()
+    self.assertIsNone(self.lookup("STARTED"))
+    self.assertEqual(self.client.get_pipeline_execution.call_count, function.SOURCE_REVISION_ATTEMPTS)
+
+  def test_other_states_do_not_retry(self):
+    self.client.get_pipeline_execution.return_value = self.execution()
+    self.assertIsNone(self.lookup("FAILED"))
+    self.client.get_pipeline_execution.assert_called_once()
+
+  def test_api_error_returns_none(self):
+    self.client.get_pipeline_execution.side_effect = Exception("AccessDenied")
+    with self.assertLogs(function.logger, "WARNING"):
+      self.assertIsNone(self.lookup())
 
 
 class UnchangedMessageTest(SlackPostTestCase):
